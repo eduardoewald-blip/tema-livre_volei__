@@ -1,117 +1,120 @@
-// Base de dados simulada contendo as partidas de vôlei masculino
-const partidas = [
+// Dados estruturados sem blocos de textos longos descritivos
+const bancoDeJogos = [
     {
-        id: 1,
-        status: "proximo",
-        statusTexto: "Próximo Jogo",
-        data: "Hoje às 20:30",
-        campeonato: "Superliga Masculina • Rodada 10",
-        timeA: "Olympus Volley",
-        timeB: "Capital Vôlei",
-        setsA: "-",
-        setsB: "-",
-        parciaisA: [],
-        parciaisB: []
+        categoria: "vivo",
+        status: "Ao Vivo • Set 4",
+        time1: "Olympus Volley",
+        time2: "Titan Titans",
+        parciais1:,
+        parciais2:,
+        setsVencidos1: 2,
+        setsVencidos2: 1,
+        midia: "SporTV 2",
+        local: "Gyn Arena"
     },
     {
-        id: 2,
-        status: "encerrados",
-        statusTexto: "Encerrado",
-        data: "Ontem",
-        campeonato: "Superliga Masculina • Rodada 9",
-        timeA: "Titan Titans",
-        timeB: "Apex Clube",
-        setsA: "3",
-        setsB: "1",
-        parciaisA:,
-        parciaisB: [18, 25, 20, 19]
+        categoria: "proximos",
+        status: "Hoje • 21:30",
+        time1: "Apex Clube",
+        time2: "Capital Vôlei",
+        parciais1: [],
+        parciais2: [],
+        setsVencidos1: "-",
+        setsVencidos2: "-",
+        midia: "Premium Pass",
+        local: "Fase de Grupos"
     },
     {
-        id: 3,
-        status: "proximo",
-        statusTexto: "Amanhã às 18:00",
-        data: "03 Set 2026",
-        campeonato: "Copa Ouro Masculina",
-        timeA: "Litoral Esportes",
-        timeB: "Olympus Volley",
-        setsA: "-",
-        setsB: "-",
-        parciaisA: [],
-        parciaisB: []
+        categoria: "todos",
+        status: "Encerrado",
+        time1: "Litoral Esportes",
+        time2: "Minas United",
+        parciais1:,
+        parciais2:,
+        setsVencidos1: 3,
+        setsVencidos2: 0,
+        midia: "Finalizado",
+        local: "01 Set 2026"
     }
 ];
 
-// Função para renderizar os cards na tela
-function renderizarJogos(filtro = "todos") {
-    const gridJogos = document.getElementById("grid-jogos");
-    if (!gridJogos) return; // Evita erros se o elemento não existir na página
+function exibirPartidas(filtro = "todos") {
+    const quadra = document.getElementById("quadra-jogos");
+    if (!quadra) return;
     
-    gridJogos.innerHTML = ""; 
+    quadra.innerHTML = "";
 
-    const partidasFiltradas = partidas.filter(partida => {
-        if (filtro === "todos") return true;
-        return partida.status === filtro;
-    });
+    bancoDeJogos.forEach(jogo => {
+        // Aplica o filtro de visualização rápido
+        if (filtro !== "todos" && jogo.categoria !== filtro) return;
 
-    partidasFiltradas.forEach(jogo => {
-        let htmlParciaisA = "";
-        let htmlParciaisB = "";
+        const classeAoVivo = jogo.categoria === "vivo" ? "ao-vivo" : "";
+        
+        // Verifica qual time venceu para aplicar o destaque dourado na pontuação final
+        const vencedor1 = jogo.setsVencidos1 > jogo.setsVencidos2 ? "winner" : "";
+        const vencedor2 = jogo.setsVencidos2 > jogo.setsVencidos1 ? "winner" : "";
 
-        // Verifica se existem parciais de sets e gera o HTML delas
-        if (jogo.parciaisA && jogo.parciaisA.length > 0) {
-            jogo.parciaisA.forEach(p => htmlParciaisA += `<span class="set-regular">${p}</span>`);
-            jogo.parciaisB.forEach(p => htmlParciaisB += `<span class="set-regular">${p}</span>`);
+        // Renderiza dinamicamente as pontuações parciais se elas existirem
+        let stringsParciais1 = "";
+        let stringsParciais2 = "";
+
+        if (jogo.parciais1.length > 0) {
+            jogo.parciais1.forEach((p, index) => {
+                stringsParciais1 += `<span class="set-score">${p}</span>`;
+                stringsParciais2 += `<span class="set-score">${jogo.parciais2[index]}</span>`;
+            });
         }
 
-        const card = document.createElement("div");
-        card.className = "card-jogo";
-        card.innerHTML = `
-            <span class="status-tag ${jogo.status}">${jogo.statusTexto}</span>
-            <div class="info-jogo">
-                <div><i class="fa-regular fa-calendar"></i> ${jogo.data}</div>
-                <div>${jogo.campeonato}</div>
-            </div>
-            <div class="placar-container">
-                <div class="time-linha">
-                    <div class="time-nome">
-                        <i class="fa-solid fa-shield-halved color-gold"></i>
-                        <span>${jogo.timeA}</span>
+        quadra.innerHTML += `
+            <div class="card-match">
+                <div class="status-box ${classeAoVivo}">${jogo.status}</div>
+                
+                <div class="teams-container">
+                    <div class="team-row">
+                        <div class="team-info">
+                            <div class="team-logo t1"><i class="fa-solid fa-trophy"></i></div>
+                            <span>${jogo.time1}</span>
+                        </div>
+                        <div class="score-box">
+                            ${stringsParciais1}
+                            <span class="set-main ${vencedor1}">${jogo.setsVencidos1}</span>
+                        </div>
                     </div>
-                    <div class="sets-pontos">
-                        ${htmlParciaisA}
-                        <span class="set-total">${jogo.setsA}</span>
+                    <div class="team-row">
+                        <div class="team-info">
+                            <div class="team-logo t2"><i class="fa-solid fa-shield-halved"></i></div>
+                            <span>${jogo.time2}</span>
+                        </div>
+                        <div class="score-box">
+                            ${stringsParciais2}
+                            <span class="set-score-container"></span>
+                            ${stringsParciais2}
+                            <span class="set-main ${vencedor2}">${jogo.setsVencidos2}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="time-linha">
-                    <div class="time-nome">
-                        <i class="fa-solid fa-shield-halved color-silver"></i>
-                        <span>${jogo.timeB}</span>
-                    </div>
-                    <div class="sets-pontos">
-                        ${htmlParciaisB}
-                        <span class="set-total">${jogo.setsB}</span>
-                    </div>
+
+                <div class="match-meta">
+                    <span class="tv-badge">${jogo.midia}</span>
+                    <span>${jogo.local}</span>
                 </div>
             </div>
         `;
-        gridJogos.appendChild(card);
     });
 }
 
-// Configuração dos eventos de clique nos botões de filtro
-document.querySelectorAll(".filter-btn").forEach(botao => {
-    botao.addEventListener("click", (e) => {
-        // Remove a classe ativa de todos os botões e adiciona no clicado
-        document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+// Configuração rápida dos seletores de filtro da barra superior
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
         e.target.classList.add("active");
-
-        // Filtra os jogos com base no atributo data-filter
-        const categoria = e.target.getAttribute("data-filter");
-        renderizarJogos(categoria);
+        
+        const alvo = e.target.getAttribute("data-filter");
+        exibirPartidas(alvo);
     });
 });
 
-// Inicializa a renderização quando o documento estiver totalmente carregado
+// Inicialização imediata ao carregar o arquivo
 document.addEventListener("DOMContentLoaded", () => {
-    renderizarJogos("todos");
+    exibirPartidas("todos");
 });
