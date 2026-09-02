@@ -1,10 +1,223 @@
-/* Atualize apenas a classe .hero-overlay no seu style.css para maior contraste */
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Melhoria: Escurecimento radial e linear combinado para destacar letras brancas */
-    background: linear-gradient(to bottom, rgba(10, 17, 40, 0.85), rgba(10, 17, 40, 0.95));
+/* Paleta de Cores Premium Estrita */
+:root {
+    --bg: #050B14;         /* Preto Azulado Profundo */
+    --card: #0E1726;       /* Azul Oceano Escuro */
+    --gold: #D4AF37;       /* Ouro Metálico */
+    --gold-glow: rgba(212, 175, 55, 0.15);
+    --text: #FFFFFF;       /* Branco Puro */
+    --text-muted: #64748B; /* Cinza Escuro */
+    --border: #1E293B;     /* Grafite Linha */
+    --live: #EF4444;       /* Vermelho Vivo */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+/* Cabeçalho Limpo */
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+/* Filtros em formato de Pílulas */
+.filters {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.filter-btn.active, .filter-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-glow);
+}
+
+/* Lista Vertical de Jogos */
+.grid-jogos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Bloco Premium de Confronto */
+.card-match {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 130px 1fr 130px;
+    align-items: center;
+    transition: all 0.25s ease;
+}
+
+.card-match:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.08);
+}
+
+/* Badges de Status do Jogo */
+.status-box {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.status-box.ao-vivo {
+    color: var(--live);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-box.ao-vivo::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--live);
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1s infinite;
+}
+
+/* Estrutura das Equipes */
+.teams-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-left: 2px solid var(--border);
+    padding-left: 20px;
+}
+
+.team-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Emblemas de Cores de Destaque */
+.team-logo {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.t1 { background: var(--gold-glow); color: var(--gold); }
+.t2 { background: rgba(100, 116, 139, 0.15); color: #cbd5e1; }
+
+/* Blocos de Pontuação dos Sets */
+.score-box {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.set-score {
+    color: var(--text-muted);
+    font-size: 13px;
+    width: 22px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Placar de Sets Vencidos (Maior) */
+.set-main {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-muted);
+    width: 26px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.set-main.winner {
+    color: var(--gold);
+}
+
+/* Transmissão e Metadados */
+.match-meta {
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tv-badge {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Animação para a bolinha do Ao Vivo */
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Layout para Celular */
+@media (max-width: 700px) {
+    .card-match {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .match-meta {
+        text-align: left;
+        padding-left: 20px;
+    }
 }
