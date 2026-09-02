@@ -1,221 +1,791 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VÔLEI ARENA | Tudo sobre o mundo do vôlei</title>
+    <meta name="description" content="Vôlei Arena - Tudo sobre o mundo do vôlei em um só lugar.">
+    <title>VÔLEI ARENA | O mundo do vôlei</title>
+
     <link rel="stylesheet" href="style.css">
-    <!-- Fontes e Ícones -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-    <!-- Loading Skeleton Screen Inicial -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="spinner"></div>
-        <p>Carregando Arena...</p>
+    <!-- LOADING -->
+    <div id="loading-screen">
+        <div class="loader-ball">🏐</div>
+        <h2>VÔLEI ARENA</h2>
+        <div class="loading-bar">
+            <span></span>
+        </div>
+        <small>Carregando arena...</small>
     </div>
 
-    <!-- Centro de Notificações Toast -->
-    <div id="toast-container" class="toast-container"></div>
-
     <!-- HEADER -->
-    <header class="main-header">
-        <div class="header-container">
-            <div class="logo-area">
-                <span class="logo-icon">🏐</span>
-                <span class="logo-text">VÔLEI <span class="accent-text">ARENA</span></span>
-            </div>
-            
-            <nav class="nav-menu" id="nav-menu">
-                <a href="#inicio" class="nav-link active">Início</a>
-                <a href="#ao-vivo" class="nav-link">Jogos</a>
-                <a href="#competicoes" class="nav-link">Competições</a>
-                <a href="#classificacao" class="nav-link">Tabelas</a>
-                <a href="#jogadores" class="nav-link">Elites</a>
-                <a href="#noticias" class="nav-link">Notícias</a>
-                <a href="#central-jogos" class="nav-link highlight-menu">Central de Jogos</a>
+    <header class="header" id="header">
+        <div class="container nav-container">
+
+            <a href="#inicio" class="logo">
+                <span class="logo-ball">🏐</span>
+                <span>VÔLEI <b>ARENA</b></span>
+            </a>
+
+            <nav class="nav" id="nav">
+                <a href="#inicio">Início</a>
+                <a href="#jogos">Jogos</a>
+                <a href="#resultados">Resultados</a>
+                <a href="#competicoes">Competições</a>
+                <a href="#times">Times</a>
+                <a href="#jogadores">Jogadores</a>
+                <a href="#ranking">Ranking</a>
+                <a href="#estatisticas">Estatísticas</a>
+                <a href="#noticias">Notícias</a>
+                <a href="#games">Jogos</a>
             </nav>
 
             <div class="header-actions">
-                <div class="search-box">
-                    <input type="text" id="global-search" placeholder="Buscar times, jogadores...">
-                    <span class="search-icon">🔍</span>
-                    <div id="search-results-dropdown" class="search-dropdown hidden"></div>
-                </div>
-                
-                <button id="fav-toggle-btn" class="action-btn" title="Meus Favoritos">⭐</button>
-                <button id="theme-toggle-btn" class="action-btn" title="Alternar Tema">🌙</button>
-                
-                <button class="burger-menu" id="burger-menu" aria-label="Abrir Menu">
-                    <span></span><span></span><span></span>
+                <button class="icon-btn" id="searchBtn" title="Pesquisar">⌕</button>
+                <button class="icon-btn" id="themeBtn" title="Alterar tema">🌙</button>
+                <button class="icon-btn favorite-header" id="favoriteBtn" title="Favoritos">
+                    ★ <span id="favoriteCount">0</span>
                 </button>
+                <button class="menu-btn" id="menuBtn">☰</button>
+            </div>
+
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-panel" id="searchPanel">
+            <div class="container">
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input type="text" id="globalSearch"
+                           placeholder="Pesquise por Brasil, Gabi, VNL, times...">
+                    <button id="closeSearch">×</button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
             </div>
         </div>
     </header>
 
-    <!-- HERO PRINCIPAL -->
-    <section id="inicio" class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-particles" id="hero-particles"></div>
-        <div class="hero-content">
-            <span class="badge-exclusive">PLATAFORMA INTEGRADA</span>
-            <h1>O MUNDO DO VÔLEI<br><span class="gradient-text">NA PALMA DA SUA MÃO</span></h1>
-            <p>Acompanhe partidas em tempo real, estatísticas avançadas, análises de elencos e divirta-se em nossa arena interactiva dedicada.</p>
-            <div class="hero-actions-btns">
-                <a href="#ao-vivo" class="btn btn-primary">VER JOGOS AO VIVO</a>
-                <a href="#central-jogos" class="btn btn-secondary">CENTRAL DE JOGOS</a>
-            </div>
-        </div>
-    </section>
 
-    <!-- CONTAINER PRINCIPAL -->
-    <main class="main-container">
+    <main>
 
-        <!-- SEÇÃO MEUS FAVORITOS (EXPANSÍVEL) -->
-        <section id="favoritos-section" class="content-section hidden">
-            <div class="section-header">
-                <h2>⭐ MEUS FAVORITOS <span class="demo-badge">LOCALSTORAGE</span></h2>
-            </div>
-            <div class="favorites-grid" id="favorites-grid">
-                <p class="empty-msg">Nenhum item favoritado ainda. Clique na estrela dos cards de jogadores ou times!</p>
+        <!-- HERO -->
+        <section class="hero" id="inicio">
+
+            <div class="hero-grid"></div>
+            <div class="particles" id="particles"></div>
+
+            <div class="container hero-content">
+
+                <div class="hero-text">
+                    <span class="eyebrow">
+                        <i></i> PLATAFORMA OFICIAL DE DEMONSTRAÇÃO
+                    </span>
+
+                    <h1>
+                        O MUNDO DO VÔLEI
+                        <span>NA PALMA DA SUA MÃO</span>
+                    </h1>
+
+                    <p>
+                        Acompanhe partidas, resultados, rankings, jogadores
+                        e tudo o que acontece dentro das quadras.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#jogos" class="btn btn-primary">
+                            VER JOGOS <span>→</span>
+                        </a>
+
+                        <a href="#competicoes" class="btn btn-outline">
+                            EXPLORAR COMPETIÇÕES
+                        </a>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div>
+                            <strong data-counter="120">0</strong>
+                            <span>Partidas</span>
+                        </div>
+                        <div>
+                            <strong data-counter="42">0</strong>
+                            <span>Times</span>
+                        </div>
+                        <div>
+                            <strong data-counter="186">0</strong>
+                            <span>Jogadores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="floating-card card-one">
+                        <span>🔥</span>
+                        <div>
+                            <strong>TOP PONTUADOR</strong>
+                            <small>Gabi • 25 pts</small>
+                        </div>
+                    </div>
+
+                    <div class="volleyball-scene">
+                        <div class="arena-light"></div>
+                        <div class="volleyball">🏐</div>
+
+                        <div class="court">
+                            <div class="court-line center"></div>
+                            <div class="court-line left"></div>
+                            <div class="court-line right"></div>
+                            <div class="net"></div>
+                        </div>
+                    </div>
+
+                    <div class="floating-card card-two">
+                        <span>⚡</span>
+                        <div>
+                            <strong>AO VIVO</strong>
+                            <small>Brasil 2 × 1 Turquia</small>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- JOGOS AO VIVO -->
-        <section id="ao-vivo" class="content-section">
-            <div class="section-header">
-                <h2><span class="live-pulse"></span> AO VIVO AGORA</h2>
-                <span class="demo-badge">DADOS DE DEMONSTRAÇÃO</span>
-            </div>
-            <div class="live-matches-grid" id="live-matches-container">
-                <!-- Injetado por JS -->
+
+        <!-- LIVE -->
+        <section class="section live-section" id="jogos">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label live-label">
+                            <i></i> AO VIVO AGORA
+                        </span>
+                        <h2>Partidas em andamento</h2>
+                    </div>
+
+                    <span class="demo-badge">DEMONSTRAÇÃO</span>
+                </div>
+
+                <div class="live-layout">
+
+                    <div class="live-main-card">
+
+                        <div class="match-top">
+                            <span class="live-pill">● LIVE</span>
+                            <span>VNL • FEMININO</span>
+                            <span id="liveClock">00:00</span>
+                        </div>
+
+                        <div class="teams-score">
+
+                            <div class="team-side">
+                                <div class="team-emblem brazil">🇧🇷</div>
+                                <strong>Brasil</strong>
+                                <small>BRASIL</small>
+                            </div>
+
+                            <div class="score-center">
+                                <div class="score">2 <span>—</span> 1</div>
+                                <div class="set-info">4º SET • 18 — 15</div>
+                            </div>
+
+                            <div class="team-side">
+                                <div class="team-emblem turkey">🇹🇷</div>
+                                <strong>Turquia</strong>
+                                <small>TURQUIA</small>
+                            </div>
+
+                        </div>
+
+                        <div class="set-bars">
+                            <span>25 - 21</span>
+                            <span>20 - 25</span>
+                            <span>25 - 18</span>
+                            <span class="active">18 - 15</span>
+                        </div>
+
+                        <button class="watch-btn" data-action="live">
+                            ACOMPANHAR PARTIDA →
+                        </button>
+
+                    </div>
+
+
+                    <div class="quick-stats">
+
+                        <h3>Estatísticas rápidas</h3>
+
+                        <div class="stat-row">
+                            <span>Ataque</span>
+                            <div class="dual-bar">
+                                <i style="width:76%"></i>
+                            </div>
+                            <strong>76%</strong>
+                        </div>
+
+                        <div class="stat-row">
+                            <span>Bloqueios</span>
+                            <div class="dual-bar">
+                                <i style="width:64%"></i>
+                            </div>
+                            <strong>12</strong>
+                        </div>
+
+                        <div class="stat-row">
+                            <span>Aces</span>
+                            <div class="dual-bar">
+                                <i style="width:48%"></i>
+                            </div>
+                            <strong>7</strong>
+                        </div>
+
+                        <div class="stat-row">
+                            <span>Erros</span>
+                            <div class="dual-bar error">
+                                <i style="width:22%"></i>
+                            </div>
+                            <strong>5</strong>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
         </section>
 
-        <!-- PRÓXIMOS JOGOS -->
-        <section id="proximos-jogos" class="content-section">
-            <div class="section-header flex-header">
-                <h2>📅 PRÓXIMAS PARTIDAS</h2>
+
+        <!-- UPCOMING -->
+        <section class="section" id="proximos">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">📅 CALENDÁRIO</span>
+                        <h2>Próximas partidas</h2>
+                    </div>
+
+                    <button class="text-btn" data-scroll="#jogos">
+                        Ver calendário completo →
+                    </button>
+                </div>
+
                 <div class="filter-bar">
-                    <button class="filter-btn active" data-filter="all">TODOS</button>
-                    <button class="filter-btn" data-filter="Feminino">FEMININO</button>
-                    <button class="filter-btn" data-filter="Masculino">MASCULINO</button>
+                    <button class="filter active" data-gender="all">TODOS</button>
+                    <button class="filter" data-gender="feminino">FEMININO</button>
+                    <button class="filter" data-gender="masculino">MASCULINO</button>
+                    <button class="filter" data-gender="selecao">SELEÇÕES</button>
+                    <button class="filter" data-gender="clubes">CLUBES</button>
+
+                    <select id="dateFilter">
+                        <option value="all">Todas as datas</option>
+                        <option value="today">Hoje</option>
+                        <option value="tomorrow">Amanhã</option>
+                        <option value="week">Esta semana</option>
+                    </select>
                 </div>
-            </div>
-            <div class="upcoming-grid" id="upcoming-container">
-                <!-- Injetado por JS -->
+
+                <div class="matches-grid" id="matchesContainer"></div>
+
             </div>
         </section>
 
-        <!-- ÚLTIMOS RESULTADOS -->
-        <section id="resultados" class="content-section">
-            <div class="section-header">
-                <h2>🏆 ÚLTIMOS RESULTADOS</h2>
-            </div>
-            <div class="results-grid" id="results-container">
-                <!-- Injetado por JS -->
-            </div>
-        </section>
 
-        <!-- COMPETIÇÕES -->
-        <section id="competicoes" class="content-section">
-            <div class="section-header">
-                <h2>🌎 COMPETIÇÕES EM DESTAQUE</h2>
-            </div>
-            <div class="competitions-grid" id="competitions-container">
-                <!-- Injetado por JS -->
-            </div>
-        </section>
+        <!-- RESULTS -->
+        <section class="section dark-section" id="resultados">
 
-        <!-- CLASSIFICAÇÃO -->
-        <section id="classificacao" class="content-section">
-            <div class="section-header">
-                <h2>📊 CLASSIFICAÇÃO GERAL</h2>
-            </div>
-            <div class="table-responsive">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>POS</th>
-                            <th>TIME</th>
-                            <th>J</th>
-                            <th>V</th>
-                            <th>D</th>
-                            <th>PTS</th>
-                            <th>SETS</th>
-                            <th>SALDO</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ranking-table-body">
-                        <!-- Injetado por JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
+            <div class="container">
 
-        <!-- JOGADORES -->
-        <section id="jogadores" class="content-section">
-            <div class="section-header">
-                <h2>⭐ ATLETAS EM DESTAQUE</h2>
-            </div>
-            <div class="players-layout">
-                <div class="players-grid" id="players-container">
-                    <!-- Injetado por JS -->
-                </div>
-                
-                <div class="leaders-dashboards">
-                    <h3>🏆 RANKING DE LÍDERES TÉCNICOS</h3>
-                    <div class="leader-category">
-                        <h4>🔥 TOP PONTUADORES</h4>
-                        <ol id="top-scorers"></ol>
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">🏆 RESULTADOS</span>
+                        <h2>Últimos resultados</h2>
                     </div>
-                    <div class="leader-category">
-                        <h4>🛡️ TOP BLOQUEADORES</h4>
-                        <ol id="top-blockers"></ol>
+
+                    <button class="text-btn" data-modal="allResults">
+                        Ver todos →
+                    </button>
+                </div>
+
+                <div class="results-grid" id="resultsContainer"></div>
+
+            </div>
+        </section>
+
+
+        <!-- COMPETITIONS -->
+        <section class="section" id="competicoes">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">🏆 GRANDES TORNEIOS</span>
+                        <h2>Competições em destaque</h2>
                     </div>
                 </div>
+
+                <div class="competitions-grid" id="competitionsContainer"></div>
+
             </div>
         </section>
 
-        <!-- QUADRA INTERATIVA -->
-        <section id="quadra-interativa" class="content-section">
-            <div class="section-header">
-                <h2>🏟️ POSICIONAMENTO E TÁTICA EM QUADRA</h2>
-                <p>Clique nas posições para entender as funções dinâmicas do vôlei moderno.</p>
-            </div>
-            <div class="court-wrapper">
-                <div class="volleyball-court">
-                    <div class="net-line"></div>
-                    <div class="attack-line line-top"></div>
-                    <div class="attack-line line-bottom"></div>
-                    
-                    <!-- Posições Oficiais de Rotação -->
-                    <div class="court-position pos-4" data-pos="4"><span>4</span><small>Ponteiro</small></div>
-                    <div class="court-position pos-3" data-pos="3"><span>3</span><small>Central</small></div>
-                    <div class="court-position pos-2" data-pos="2"><span>2</span><small>Oposto</small></div>
-                    <div class="court-position pos-5" data-pos="5"><span>5</span><small>Ponteiro / Defesa</small></div>
-                    <div class="court-position pos-6" data-pos="6"><span>6</span><small>Líbero / Central</small></div>
-                    <div class="court-position pos-1" data-pos="1"><span>1</span><small>Levantador</small></div>
+
+        <!-- RANKING -->
+        <section class="section ranking-section" id="ranking">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">📊 CLASSIFICAÇÃO</span>
+                        <h2>Ranking da competição</h2>
+                    </div>
+
+                    <select class="dark-select">
+                        <option>VNL Feminina</option>
+                        <option>VNL Masculina</option>
+                        <option>Clubes</option>
+                    </select>
                 </div>
-                <div class="court-info-card" id="court-info-display">
-                    <h3>Selecione uma posição</h3>
-                    <p>Clique em qualquer número na quadra tática ao lado para detalhar a função tática, atribuições físicas e responsabilidades defensivas/ofensivas.</p>
+
+                <div class="table-wrapper">
+
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>POS</th>
+                                <th>TIME</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>D</th>
+                                <th>PTS</th>
+                                <th>SETS</th>
+                                <th>SALDO</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="rankingBody"></tbody>
+                    </table>
+
                 </div>
+
             </div>
         </section>
 
-        <!-- CENTRAL DE JOGOS INTERATIVOS -->
-        <section id="central-jogos" class="content-section arcade-section">
-            <div class="section-header text-center">
-                <span class="arcade-title">🎮 CENTRAL DE JOGOS INTERATIVOS</span>
-                <p>Compita, pontue e salve seu recorde nos desafios exclusivos de habilidades</p>
+
+        <!-- TEAMS -->
+        <section class="section" id="times">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">🏐 EQUIPES</span>
+                        <h2>Times em destaque</h2>
+                    </div>
+
+                    <button class="text-btn" data-modal="allTeams">
+                        Ver todos →
+                    </button>
+                </div>
+
+                <div class="teams-grid" id="teamsContainer"></div>
+
+            </div>
+        </section>
+
+
+        <!-- PLAYERS -->
+        <section class="section dark-section" id="jogadores">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">⭐ ATLETAS</span>
+                        <h2>Jogadores em destaque</h2>
+                    </div>
+                </div>
+
+                <div class="players-grid" id="playersContainer"></div>
+
+                <div class="player-rankings">
+
+                    <div class="mini-ranking">
+                        <h3>🔥 TOP PONTUADORES</h3>
+                        <div class="mini-item">
+                            <span>01</span>
+                            <b>Gabi</b>
+                            <strong>25.4</strong>
+                        </div>
+                        <div class="mini-item">
+                            <span>02</span>
+                            <b>Paola Egonu</b>
+                            <strong>24.8</strong>
+                        </div>
+                        <div class="mini-item">
+                            <span>03</span>
+                            <b>Zhu Ting</b>
+                            <strong>23.7</strong>
+                        </div>
+                    </div>
+
+                    <div class="mini-ranking">
+                        <h3>🛡️ TOP BLOQUEADORES</h3>
+                        <div class="mini-item">
+                            <span>01</span>
+                            <b>Thaisa</b>
+                            <strong>3.4</strong>
+                        </div>
+                        <div class="mini-item">
+                            <span>02</span>
+                            <b>Carol</b>
+                            <strong>3.1</strong>
+                        </div>
+                        <div class="mini-item">
+                            <span>03</span>
+                            <b>Danesi</b>
+                            <strong>2.9</strong>
+                        </div>
+                    </div>
+
+                    <div class="mini-ranking">
+                        <h3>⚡ TOP SACADORES</h3>
+                        <div class="mini-item">
+                            <span>01</span>
+                            <b>Gabi</b>
+                            <strong>0.72</strong>
+                        </div>
+                        <div class="mini-item">
+                            <span>02</span>
+                            <b>Egonu</b>
+                            <strong>0.68</strong>
+                        </div>
+                        <div class="mini-item">
+                            <span>03</span>
+                            <b>Julia</b>
+                            <strong>0.64</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- STATISTICS -->
+        <section class="section" id="estatisticas">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">📈 PERFORMANCE</span>
+                        <h2>Estatísticas da arena</h2>
+                    </div>
+                    <span class="demo-badge">DADOS DEMONSTRATIVOS</span>
+                </div>
+
+                <div class="dashboard">
+
+                    <div class="dashboard-card large-chart">
+
+                        <div class="dashboard-title">
+                            <div>
+                                <span>DESEMPENHO</span>
+                                <h3>Pontos por partida</h3>
+                            </div>
+                            <strong>+12.8%</strong>
+                        </div>
+
+                        <div class="chart">
+                            <div class="chart-grid"></div>
+                            <div class="chart-line">
+                                <span style="height:35%"></span>
+                                <span style="height:52%"></span>
+                                <span style="height:43%"></span>
+                                <span style="height:68%"></span>
+                                <span style="height:61%"></span>
+                                <span style="height:80%"></span>
+                                <span style="height:92%"></span>
+                            </div>
+                            <div class="chart-labels">
+                                <span>J1</span>
+                                <span>J2</span>
+                                <span>J3</span>
+                                <span>J4</span>
+                                <span>J5</span>
+                                <span>J6</span>
+                                <span>J7</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="dashboard-title">
+                            <div>
+                                <span>ATAQUE</span>
+                                <h3>Eficiência</h3>
+                            </div>
+                            <strong>78%</strong>
+                        </div>
+
+                        <div class="circle-progress" style="--progress:78">
+                            <div>
+                                <strong>78%</strong>
+                                <span>eficiência</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="dashboard-title">
+                            <div>
+                                <span>RESULTADOS</span>
+                                <h3>Vitórias</h3>
+                            </div>
+                        </div>
+
+                        <div class="big-number">87<span>%</span></div>
+
+                        <div class="progress-line">
+                            <span style="width:87%"></span>
+                        </div>
+
+                        <small>87 vitórias em 100 partidas</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- NEWS -->
+        <section class="section dark-section" id="noticias">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">📰 INFORMAÇÃO</span>
+                        <h2>Últimas notícias</h2>
+                    </div>
+                </div>
+
+                <div class="news-filters">
+                    <button class="news-filter active" data-news="all">Todos</button>
+                    <button class="news-filter" data-news="selecao">Seleções</button>
+                    <button class="news-filter" data-news="clubes">Clubes</button>
+                    <button class="news-filter" data-news="jogadores">Jogadores</button>
+                    <button class="news-filter" data-news="competicoes">Competições</button>
+                </div>
+
+                <div class="news-grid" id="newsContainer"></div>
+
+            </div>
+        </section>
+
+
+        <!-- GAMES -->
+        <section class="section games-section" id="games">
+
+            <div class="container">
+
+                <div class="game-intro">
+                    <span class="section-label">🎮 CENTRAL DE JOGOS</span>
+                    <h2>Entre em quadra</h2>
+                    <p>
+                        Teste seus conhecimentos, sua velocidade e monte
+                        seu próprio time.
+                    </p>
+                </div>
+
+                <div class="games-grid">
+
+                    <article class="game-card" data-game="quiz">
+                        <div class="game-icon">🧠</div>
+                        <span>DESAFIO 01</span>
+                        <h3>Quiz do Vôlei</h3>
+                        <p>Você realmente conhece o mundo do vôlei?</p>
+                        <button>JOGAR →</button>
+                    </article>
+
+                    <article class="game-card" data-game="serve">
+                        <div class="game-icon">🏐</div>
+                        <span>DESAFIO 02</span>
+                        <h3>Desafio do Saque</h3>
+                        <p>Controle a força e acerte o alvo.</p>
+                        <button>JOGAR →</button>
+                    </article>
+
+                    <article class="game-card" data-game="reflex">
+                        <div class="game-icon">⚡</div>
+                        <span>DESAFIO 03</span>
+                        <h3>Desafio de Reflexo</h3>
+                        <p>Você consegue reagir antes da bola cair?</p>
+                        <button>JOGAR →</button>
+                    </article>
+
+                    <article class="game-card" data-game="team">
+                        <div class="game-icon">🏆</div>
+                        <span>DESAFIO 04</span>
+                        <h3>Monte seu Time</h3>
+                        <p>Escolha sua formação perfeita.</p>
+                        <button>CRIAR TIME →</button>
+                    </article>
+
+                </div>
+
+
+                <!-- COURT -->
+                <div class="court-builder">
+
+                    <div class="builder-info">
+                        <span class="section-label">🏟️ TÁTICA</span>
+                        <h2>Quadra interativa</h2>
+                        <p>
+                            Clique em uma posição para descobrir
+                            sua função dentro da quadra.
+                        </p>
+
+                        <div class="position-info" id="positionInfo">
+                            <strong>Selecione uma posição</strong>
+                            <span>As informações aparecerão aqui.</span>
+                        </div>
+                    </div>
+
+                    <div class="interactive-court">
+
+                        <div class="court-half">
+                            <button class="position p1" data-position="1">
+                                <b>1</b>
+                                <small>Levantador</small>
+                            </button>
+
+                            <button class="position p2" data-position="2">
+                                <b>2</b>
+                                <small>Oposto</small>
+                            </button>
+
+                            <button class="position p3" data-position="3">
+                                <b>3</b>
+                                <small>Ponteiro</small>
+                            </button>
+
+                            <button class="position p4" data-position="4">
+                                <b>4</b>
+                                <small>Central</small>
+                            </button>
+
+                            <button class="position p5" data-position="5">
+                                <b>5</b>
+                                <small>Líbero</small>
+                            </button>
+
+                            <button class="position p6" data-position="6">
+                                <b>6</b>
+                                <small>Ponteiro</small>
+                            </button>
+
+                            <div class="court-net"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="container footer-grid">
+
+            <div>
+                <a href="#inicio" class="logo footer-logo">
+                    🏐 VÔLEI <b>ARENA</b>
+                </a>
+
+                <p>
+                    Tudo sobre o mundo do vôlei em um só lugar.
+                </p>
             </div>
 
-            <div class="arcade-grid">
-                <!-- QUIZ -->
-                <div class="arcade-card unified-card">
-                    <h3>🧠 1. QUIZ DO VÔLEI ARENA</h3>
-                    <div id="quiz-intro">
+            <div>
+                <h4>Explorar</h4>
+                <a href="#jogos">Jogos</a>
+                <a href="#resultados">Resultados</a>
+                <a href="#times">Times</a>
+                <a href="#jogadores">Jogadores</a>
+            </div>
+
+            <div>
+                <h4>Informações</h4>
+                <a href="#competicoes">Competições</a>
+                <a href="#ranking">Ranking</a>
+                <a href="#estatisticas">Estatísticas</a>
+                <a href="#noticias">Notícias</a>
+            </div>
+
+            <div>
+                <h4>Arena</h4>
+                <a href="#games">Central de jogos</a>
+                <button id="notificationBtn">🔔 Testar notificação</button>
+                <button id="favoritesFooter">⭐ Meus favoritos</button>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 VÔLEI ARENA</span>
+            <span>Projeto demonstrativo • HTML • CSS • JavaScript</span>
+        </div>
+
+    </footer>
+
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+
+        <div class="modal" id="modal">
+
+            <button class="modal-close" id="modalClose">×</button>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <div>
+            <strong id="toastTitle">Sucesso</strong>
+            <small id="toastMessage">Ação realizada.</small>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
