@@ -1,29 +1,221 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Center - Vôlei Masculino</title>
+    <title>VÔLEI ARENA | Tudo sobre o mundo do vôlei</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Fontes e Ícones -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container">
-        <!-- Cabeçalho de Navegação Direta -->
-        <header class="match-header">
-            <div class="logo">MASCULINO // <span>PREMIUM</span></div>
-            <div class="filters">
-                <button class="filter-btn active" data-filter="todos">Todos</button>
-                <button class="filter-btn" data-filter="vivo">Ao Vivo</button>
-                <button class="filter-btn" data-filter="proximos">Próximos</button>
-            </div>
-        </header>
-
-        <!-- Grid Onde Ficam os Blocos de Jogos -->
-        <main class="grid-jogos" id="quadra-jogos"></main>
+    <!-- Loading Skeleton Screen Inicial -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Carregando Arena...</p>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <!-- Centro de Notificações Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo-icon">🏐</span>
+                <span class="logo-text">VÔLEI <span class="accent-text">ARENA</span></span>
+            </div>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#inicio" class="nav-link active">Início</a>
+                <a href="#ao-vivo" class="nav-link">Jogos</a>
+                <a href="#competicoes" class="nav-link">Competições</a>
+                <a href="#classificacao" class="nav-link">Tabelas</a>
+                <a href="#jogadores" class="nav-link">Elites</a>
+                <a href="#noticias" class="nav-link">Notícias</a>
+                <a href="#central-jogos" class="nav-link highlight-menu">Central de Jogos</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" id="global-search" placeholder="Buscar times, jogadores...">
+                    <span class="search-icon">🔍</span>
+                    <div id="search-results-dropdown" class="search-dropdown hidden"></div>
+                </div>
+                
+                <button id="fav-toggle-btn" class="action-btn" title="Meus Favoritos">⭐</button>
+                <button id="theme-toggle-btn" class="action-btn" title="Alternar Tema">🌙</button>
+                
+                <button class="burger-menu" id="burger-menu" aria-label="Abrir Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO PRINCIPAL -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-particles" id="hero-particles"></div>
+        <div class="hero-content">
+            <span class="badge-exclusive">PLATAFORMA INTEGRADA</span>
+            <h1>O MUNDO DO VÔLEI<br><span class="gradient-text">NA PALMA DA SUA MÃO</span></h1>
+            <p>Acompanhe partidas em tempo real, estatísticas avançadas, análises de elencos e divirta-se em nossa arena interactiva dedicada.</p>
+            <div class="hero-actions-btns">
+                <a href="#ao-vivo" class="btn btn-primary">VER JOGOS AO VIVO</a>
+                <a href="#central-jogos" class="btn btn-secondary">CENTRAL DE JOGOS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main class="main-container">
+
+        <!-- SEÇÃO MEUS FAVORITOS (EXPANSÍVEL) -->
+        <section id="favoritos-section" class="content-section hidden">
+            <div class="section-header">
+                <h2>⭐ MEUS FAVORITOS <span class="demo-badge">LOCALSTORAGE</span></h2>
+            </div>
+            <div class="favorites-grid" id="favorites-grid">
+                <p class="empty-msg">Nenhum item favoritado ainda. Clique na estrela dos cards de jogadores ou times!</p>
+            </div>
+        </section>
+
+        <!-- JOGOS AO VIVO -->
+        <section id="ao-vivo" class="content-section">
+            <div class="section-header">
+                <h2><span class="live-pulse"></span> AO VIVO AGORA</h2>
+                <span class="demo-badge">DADOS DE DEMONSTRAÇÃO</span>
+            </div>
+            <div class="live-matches-grid" id="live-matches-container">
+                <!-- Injetado por JS -->
+            </div>
+        </section>
+
+        <!-- PRÓXIMOS JOGOS -->
+        <section id="proximos-jogos" class="content-section">
+            <div class="section-header flex-header">
+                <h2>📅 PRÓXIMAS PARTIDAS</h2>
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">TODOS</button>
+                    <button class="filter-btn" data-filter="Feminino">FEMININO</button>
+                    <button class="filter-btn" data-filter="Masculino">MASCULINO</button>
+                </div>
+            </div>
+            <div class="upcoming-grid" id="upcoming-container">
+                <!-- Injetado por JS -->
+            </div>
+        </section>
+
+        <!-- ÚLTIMOS RESULTADOS -->
+        <section id="resultados" class="content-section">
+            <div class="section-header">
+                <h2>🏆 ÚLTIMOS RESULTADOS</h2>
+            </div>
+            <div class="results-grid" id="results-container">
+                <!-- Injetado por JS -->
+            </div>
+        </section>
+
+        <!-- COMPETIÇÕES -->
+        <section id="competicoes" class="content-section">
+            <div class="section-header">
+                <h2>🌎 COMPETIÇÕES EM DESTAQUE</h2>
+            </div>
+            <div class="competitions-grid" id="competitions-container">
+                <!-- Injetado por JS -->
+            </div>
+        </section>
+
+        <!-- CLASSIFICAÇÃO -->
+        <section id="classificacao" class="content-section">
+            <div class="section-header">
+                <h2>📊 CLASSIFICAÇÃO GERAL</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>POS</th>
+                            <th>TIME</th>
+                            <th>J</th>
+                            <th>V</th>
+                            <th>D</th>
+                            <th>PTS</th>
+                            <th>SETS</th>
+                            <th>SALDO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-table-body">
+                        <!-- Injetado por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- JOGADORES -->
+        <section id="jogadores" class="content-section">
+            <div class="section-header">
+                <h2>⭐ ATLETAS EM DESTAQUE</h2>
+            </div>
+            <div class="players-layout">
+                <div class="players-grid" id="players-container">
+                    <!-- Injetado por JS -->
+                </div>
+                
+                <div class="leaders-dashboards">
+                    <h3>🏆 RANKING DE LÍDERES TÉCNICOS</h3>
+                    <div class="leader-category">
+                        <h4>🔥 TOP PONTUADORES</h4>
+                        <ol id="top-scorers"></ol>
+                    </div>
+                    <div class="leader-category">
+                        <h4>🛡️ TOP BLOQUEADORES</h4>
+                        <ol id="top-blockers"></ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUADRA INTERATIVA -->
+        <section id="quadra-interativa" class="content-section">
+            <div class="section-header">
+                <h2>🏟️ POSICIONAMENTO E TÁTICA EM QUADRA</h2>
+                <p>Clique nas posições para entender as funções dinâmicas do vôlei moderno.</p>
+            </div>
+            <div class="court-wrapper">
+                <div class="volleyball-court">
+                    <div class="net-line"></div>
+                    <div class="attack-line line-top"></div>
+                    <div class="attack-line line-bottom"></div>
+                    
+                    <!-- Posições Oficiais de Rotação -->
+                    <div class="court-position pos-4" data-pos="4"><span>4</span><small>Ponteiro</small></div>
+                    <div class="court-position pos-3" data-pos="3"><span>3</span><small>Central</small></div>
+                    <div class="court-position pos-2" data-pos="2"><span>2</span><small>Oposto</small></div>
+                    <div class="court-position pos-5" data-pos="5"><span>5</span><small>Ponteiro / Defesa</small></div>
+                    <div class="court-position pos-6" data-pos="6"><span>6</span><small>Líbero / Central</small></div>
+                    <div class="court-position pos-1" data-pos="1"><span>1</span><small>Levantador</small></div>
+                </div>
+                <div class="court-info-card" id="court-info-display">
+                    <h3>Selecione uma posição</h3>
+                    <p>Clique em qualquer número na quadra tática ao lado para detalhar a função tática, atribuições físicas e responsabilidades defensivas/ofensivas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CENTRAL DE JOGOS INTERATIVOS -->
+        <section id="central-jogos" class="content-section arcade-section">
+            <div class="section-header text-center">
+                <span class="arcade-title">🎮 CENTRAL DE JOGOS INTERATIVOS</span>
+                <p>Compita, pontue e salve seu recorde nos desafios exclusivos de habilidades</p>
+            </div>
+
+            <div class="arcade-grid">
+                <!-- QUIZ -->
+                <div class="arcade-card unified-card">
+                    <h3>🧠 1. QUIZ DO VÔLEI ARENA</h3>
+                    <div id="quiz-intro">
